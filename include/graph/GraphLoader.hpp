@@ -193,6 +193,7 @@ class GraphLoader {
       return tensorflow::DataType::DT_FLOAT;
     else if (typeid(Dtype) == typeid(double))
       return tensorflow::DataType::DT_DOUBLE;
+      else return tensorflow::DataType::DT_DOUBLE;
   }
 
   void setGraphDef(const tensorflow::MetaGraphDef graphDef) {

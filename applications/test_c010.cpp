@@ -9,7 +9,7 @@
 int main(int argc, char *argv[]) {
 
   ///Hard-coded. TODO: clean it up
-  std::string rsc_path = "/home/jolee/raisimws/learning_locomotion_over_challening_terrain_supplementary/rsc";
+  std::string rsc_path = "/home/hassan/Documents/learning_quadrupedal_locomotion_over_challenging_terrain_supplementary/rsc";
   std::string policy_name = "tcn100";
   int history_len = 100; // TODO: move to controller config.
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
   bool teacher_policy = false;
   if(policy_name == "teacher") teacher_policy=true;
 
-  raisim::World::setActivationKey("/home/jolee/raisimws/install/activation.raisim");
+  raisim::World::setActivationKey("/home/hassan/.raisim/activation.raisim");
 
   Env::blind_locomotion sim(true, 0, urdf_path, actuator_path);
   Policy<Env::ActionDim> policy;

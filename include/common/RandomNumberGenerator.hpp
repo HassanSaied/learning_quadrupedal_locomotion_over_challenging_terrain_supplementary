@@ -46,7 +46,7 @@ class RandomNumberGenerator {
 
   int intRand(const int &min, const int &max) {
     {
-      std::uniform_int_distribution<int> distribution(min, max);
+      boost::random::uniform_int_distribution<int> distribution(min, max);
       return distribution(rngGenerator);
     }
   }

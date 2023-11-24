@@ -311,7 +311,7 @@ class blind_locomotion {
     }
 
     int cnt = 0;
-    COMPosition_ = anymal_->getLinkCOM()[0].e();
+    COMPosition_ = anymal_->getBodyCOM_B()[0].e();
   }
 
   ~blind_locomotion() {
@@ -360,7 +360,7 @@ class blind_locomotion {
         if (!anymal_->getContacts()[k].skip() && anymal_->getContacts()[k].getPairObjectIndex() > 0) {
 
           int idx = anymal_->getContacts()[k].getlocalBodyIndex();
-          netContacts_ += anymal_->getContacts()[k].getImpulse()->e();
+          netContacts_ += anymal_->getContacts()[k].getImpulse().e();
 
           if (idx == 0) {
             numBaseContact_++;
@@ -370,7 +370,7 @@ class blind_locomotion {
 
             if (err < 0.035) {
               netFootContacts_[fid] +=
-                  (anymal_->getContacts()[k].getContactFrame().e() * anymal_->getContacts()[k].getImpulse()->e());
+                  (anymal_->getContacts()[k].getContactFrame().e() * anymal_->getContacts()[k].getImpulse().e());
 
               anymal_->getContactPointVel(k, vec3);
               netFootContactVels_[fid] += vec3.e();
