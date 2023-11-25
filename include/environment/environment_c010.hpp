@@ -1868,13 +1868,4 @@ class blind_locomotion {
   int seed_ = -1;
   InverseKinematics IK_;
 };
-
-
-PYBIND11_MODULE(environement, m) {
-    py::class_<blind_locomotion>(m, "blind_locomotion")
-        .def(py::init<bool, int,std::string,std::string>(),py::arg("visualize"),py::arg("instance"),py::arg("urdf_path"),py::arg("actuator_path"))
-        .def("getHistory", static_cast<Eigen::MatrixXd (blind_locomotion::*)(const size_t &)>(&blind_locomotion::blind_locomotion),py::arg("nums"))
-        .def("getName", &Pet::getName);
-}
-
 }//namespace env
