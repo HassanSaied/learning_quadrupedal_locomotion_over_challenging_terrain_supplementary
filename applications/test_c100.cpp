@@ -114,18 +114,18 @@ int main(int argc, char *argv[]) {
     Eigen::Matrix<float, -1, 1> task_params(4);
     task_params << 0.0, 0.05, 0.5, 0.5;
     perform_simulation(sim, policy, history_len, task_params);
-//    task_params << 5, 0.05, 0.5, 0.5;
-//    perform_simulation(sim, policy, history_len, task_params);
-//    task_params << 5, 0.03, 0.6, 1.4;
-//    perform_simulation(sim, policy, history_len, task_params);
-//    task_params << 3, 0.03, 0.6, 1.4;
-//    perform_simulation(sim, policy, history_len, task_params);
-//    task_params << 3, 0.05, 0.5, 0.5;
-//    perform_simulation(sim, policy, history_len, task_params);
-//    task_params << 6, 0.3, 0.12, 0.5;
-//    perform_simulation(sim, policy, history_len, task_params);
-//    task_params << 7, 0.1, 0.02, 0;
-//    perform_simulation(sim, policy, history_len, task_params);
+    task_params << 5, 0.05, 0.5, 0.5;
+    perform_simulation(sim, policy, history_len, task_params);
+    task_params << 5, 0.03, 0.6, 1.4;
+    perform_simulation(sim, policy, history_len, task_params);
+    task_params << 3, 0.03, 0.6, 1.4;
+    perform_simulation(sim, policy, history_len, task_params);
+    task_params << 3, 0.05, 0.5, 0.5;
+    perform_simulation(sim, policy, history_len, task_params);
+    task_params << 6, 0.3, 0.12, 0.5;
+    perform_simulation(sim, policy, history_len, task_params);
+    task_params << 7, 0.1, 0.02, 0;
+    perform_simulation(sim, policy, history_len, task_params);
     return 0;
 }
 

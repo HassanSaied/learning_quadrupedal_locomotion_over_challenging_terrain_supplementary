@@ -23,10 +23,6 @@
 #include "visualizer/raisimKeyboardCallback.hpp"
 #include "visualizer/guiState.hpp"
 
-#include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
-namespace py = pybind11;
-
 namespace Env {
 enum TerrainType {
   Flat_,
