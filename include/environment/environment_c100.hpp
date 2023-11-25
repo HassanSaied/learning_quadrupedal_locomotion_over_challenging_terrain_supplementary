@@ -23,6 +23,11 @@
 #include "visualizer/raisimKeyboardCallback.hpp"
 #include "visualizer/guiState.hpp"
 
+
+#include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
+namespace py = pybind11;
+
 namespace Env {
 enum TerrainType {
   Flat_,
@@ -506,6 +511,10 @@ class blind_locomotion {
   void getHistory(Eigen::Matrix<float, -1, -1> &out, const size_t &nums) {
     out = historyBuffer_.block(0, 0, ObservationDim, nums);
   };
+
+  Eigen::MatrixXf getHistory(const size_t &nums){
+    return historyBuffer_.block(0, 0, ObservationDim, nums);
+  }
 
   virtual void integrate() {
     bool terminate = false;
@@ -1855,4 +1864,12 @@ class blind_locomotion {
   int seed_ = -1;
   InverseKinematics IK_;
 };
+
+
+PYBIND11_MODULE(environement, m) {
+    py::class_<blind_locomotion>(m, "blind_locomotion")
+        .def(py::init<bool, int,std::string,std::string>(),py::arg("visualize"),py::arg("instance"),py::arg("urdf_path"),py::arg("actuator_path"))
+        .def("getHistory", static_cast<Eigen::MatrixXf (blind_locomotion::*)(const size_t &)>(&blind_locomotion::getHistory),py::arg("nums"))
+        .def("integrate", &blind_locomotion::integrate);
+}
 }//namespace env
