@@ -86,6 +86,11 @@ class Policy {
                 sizeof(float) * ActionDim);
 
   }
+  Eigen::MatrixXf getAction(){
+      Eigen::Matrix<float, ActionDim, 1> action;
+      getAction(action);
+      return action;
+  }
 
   GraphLoader<float> graph_;
   tensorflow::TensorShape state_2_dims_inv;
@@ -94,7 +99,12 @@ class Policy {
   tensorflow::TensorShape state_dims_inv;
   tensorflow::Tensor state_tf_tensor;
   bool teacher_ = false;
+    int add(int i, int j) {
+        return i + j;
+    }
+
 
 };
+
 
 #endif //BLIND_SANDBOX_INCLUDE_GRAPH_POLICY_H_

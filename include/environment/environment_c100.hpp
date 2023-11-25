@@ -24,10 +24,6 @@
 #include "visualizer/guiState.hpp"
 
 
-#include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
-namespace py = pybind11;
-
 namespace Env {
 enum TerrainType {
   Flat_,
@@ -1405,6 +1401,12 @@ class blind_locomotion {
     }
   }
 
+  Eigen::MatrixXf  getState(){
+      Eigen::Matrix<float,-1,1> temp;
+      getState(temp);
+      return temp;
+  }
+
   void getPriviligedState(Eigen::Matrix<float, -1, -1> &state) {
     updateCommand();
 
@@ -1863,13 +1865,8 @@ class blind_locomotion {
   RandomNumberGenerator<float> rn_;
   int seed_ = -1;
   InverseKinematics IK_;
+    int add(int i, int j) {
+        return i + j;
+    }
 };
-
-
-PYBIND11_MODULE(environement, m) {
-    py::class_<blind_locomotion>(m, "blind_locomotion")
-        .def(py::init<bool, int,std::string,std::string>(),py::arg("visualize"),py::arg("instance"),py::arg("urdf_path"),py::arg("actuator_path"))
-        .def("getHistory", static_cast<Eigen::MatrixXf (blind_locomotion::*)(const size_t &)>(&blind_locomotion::getHistory),py::arg("nums"))
-        .def("integrate", &blind_locomotion::integrate);
-}
 }//namespace env
