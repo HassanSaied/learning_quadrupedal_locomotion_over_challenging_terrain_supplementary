@@ -54,6 +54,7 @@ void perform_simulation(Env::blind_locomotion &sim, Policy<Env::ActionDim> &poli
     vector<Eigen::Matrix<float, -1, -1>> all_history;
     vector<Eigen::Matrix<float, -1, 1>> all_state;
     vector<Eigen::Matrix<float, Env::ActionDim, 1>> all_action;
+//    sim.get_torques();
     /// simulate for 30 seconds.
     for (int i = 0; i < 1500; i++) {
         sim.integrate();
@@ -61,6 +62,7 @@ void perform_simulation(Env::blind_locomotion &sim, Policy<Env::ActionDim> &poli
         sim.getState(state);
         all_history.push_back(history);
         all_state.push_back(state);
+//        sim.detect_collisions();
 
         policy.updateStateBuffer(state);
         policy.updateStateBuffer2(history);
@@ -114,6 +116,7 @@ int main(int argc, char *argv[]) {
     Eigen::Matrix<float, -1, 1> task_params(4);
     task_params << 0.0, 0.05, 0.5, 0.5;
     perform_simulation(sim, policy, history_len, task_params);
+    return 0;
     task_params << 5, 0.05, 0.5, 0.5;
     perform_simulation(sim, policy, history_len, task_params);
     task_params << 5, 0.03, 0.6, 1.4;

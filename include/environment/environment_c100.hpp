@@ -821,6 +821,54 @@ class blind_locomotion {
     rn_.seed(seed_);
   }
 
+    std::vector<Eigen::Vector3d> getfootPos_Target(){
+        return footPos_Target;
+    }
+    std::vector<std::vector<double>> get_torques() {
+        anymal_->setComputeInverseDynamics(true);
+        auto joint_names = anymal_->getMovableJointNames();
+        std::vector<std::vector<double>> all_torques;
+        for (auto &joint_name: joint_names) {
+            std::cout << joint_name << std::endl;
+            auto idx = anymal_->getFrameIdxByName(joint_name);
+            auto torque = anymal_->getTorqueAtJointInWorldFrame(idx);
+            std::cout << torque << std::endl;
+            std::vector joint_torque{torque[0], torque[1], torque[2]};
+            all_torques.push_back(joint_torque);
+        }
+        return all_torques;
+    }
+
+    std::pair<size_t,size_t> detect_collisions(){
+      auto contacts = anymal_->getContacts();
+        auto v  = anymal_->getBodyNames();
+        std::vector<std::string> foot_names = {"RH_SHANK","LH_SHANK","RF_SHANK","LF_SHANK"};
+        std::vector<size_t> foot_indices;
+        for (int i = 0; i < v.size(); ++i) {
+            auto body_name = v[i];
+            if (std::find(foot_names.begin(), foot_names.end(),body_name) != foot_names.end()){
+                foot_indices.push_back(i);
+            }
+        }
+        std::set<size_t> collision_foot_with_ground_indices,collision_other_body_parts;
+        for (auto & contact : contacts) {
+            size_t body_idx = contact.getlocalBodyIndex();
+            //This is the first time this object collides with anything
+            if (std::find(foot_indices.begin(), foot_indices.end(), body_idx) != foot_indices.end()) {
+                //This is a foot
+                if (contact.getPairObjectBodyType() == raisim::BodyType::STATIC) {
+                    //it's colliding with A STATIC object, either ground or height map
+                    collision_foot_with_ground_indices.insert(body_idx);
+                }
+            }else{
+                collision_other_body_parts.insert(body_idx);
+            }
+        }
+//        std::cout << collision_foot_with_ground_indices.size()<< ','<<  collision_other_body_parts.size()<< std::endl;
+        return {collision_foot_with_ground_indices.size(),collision_other_body_parts.size()};
+
+  }
+
   void setF(double low, double mid) {
     for (int i = 0; i < 4; i++) {
       footFriction_[i] = std::max(mid + 0.1 * rn_.sampleNormal(), low);
@@ -1401,6 +1449,14 @@ class blind_locomotion {
     }
   }
 
+    Eigen::MatrixXf getStateWithoutNoise(){
+      updateCommand();
+
+      State temp;
+      conversion_GeneralizedState2LearningState(temp, q_, u_);
+      return temp;
+  }
+
   Eigen::MatrixXf  getState(){
       Eigen::Matrix<float,-1,1> temp;
       getState(temp);
@@ -1482,6 +1538,13 @@ class blind_locomotion {
     state(pos++,0) = disturbance_in_base[1];
     state(pos++,0) = disturbance_in_base[2];
   }
+
+    Eigen::MatrixXf getPriviligedState() {
+        Eigen::Matrix<float, -1, -1> state;
+        getPriviligedState(state);
+        return state;
+
+    }
 
   Eigen::VectorXd getGeneralizedState() { return q_; }
 
