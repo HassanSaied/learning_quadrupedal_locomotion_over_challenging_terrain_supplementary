@@ -838,6 +838,10 @@ class blind_locomotion {
         }
         return all_torques;
     }
+    Eigen::Matrix3d get_base_orientation(){
+      Eigen::Matrix3d matrix =  anymal_->getBaseOrientation().e();
+      return matrix;
+  }
 
     std::pair<size_t,size_t> detect_collisions(){
       auto contacts = anymal_->getContacts();

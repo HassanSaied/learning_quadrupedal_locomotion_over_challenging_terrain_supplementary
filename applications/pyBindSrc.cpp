@@ -27,6 +27,7 @@ PYBIND11_MODULE(legged_robotics, m) {
             .def("detect_collisions",(&Env::blind_locomotion::detect_collisions))
             .def("get_torques",((&Env::blind_locomotion::get_torques)))
             .def("getfootPos_Target",((&Env::blind_locomotion::getfootPos_Target)))
+            .def("get_base_orientation",((&Env::blind_locomotion::get_base_orientation)))
             .def("add", (&Env::blind_locomotion::add), py::arg("i"), py::arg("j"));
     py::class_<PolicyWithActionDim>(m, "policy")
             .def(py::init<>())
