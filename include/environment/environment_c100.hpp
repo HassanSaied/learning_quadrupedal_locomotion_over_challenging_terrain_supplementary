@@ -873,6 +873,29 @@ class blind_locomotion {
 
   }
 
+  bool get_termination_condition(const std::vector<std::string> & body_names) const{
+      auto contacts = anymal_->getContacts();
+      auto v  = anymal_->getBodyNames();
+      bool global_termination = false;
+      std::vector<size_t> body_indices;
+      for (size_t i = 0; i < v.size(); ++i) {
+          if(find(body_names.begin(),body_names.end(),v[i]) != body_names.end()){
+              body_indices.push_back(i);
+          }
+      }
+      for(auto & contact : contacts){
+          if(std::find(body_indices.begin(), body_indices.end(),contact.getlocalBodyIndex()) != body_indices.end()){
+              auto impulse = contact.getImpulse().e();
+              auto force  = impulse / env_->getTimeStep();
+              bool is_termination = force.norm() > 1;
+              global_termination |= is_termination;
+          }
+
+      }
+      return global_termination;
+
+  }
+
   void setF(double low, double mid) {
     for (int i = 0; i < 4; i++) {
       footFriction_[i] = std::max(mid + 0.1 * rn_.sampleNormal(), low);
