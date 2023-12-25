@@ -56,7 +56,7 @@ void perform_simulation(Env::blind_locomotion &sim, Policy<Env::ActionDim> &poli
     vector<Eigen::Matrix<float, Env::ActionDim, 1>> all_action;
     auto start = std::chrono::high_resolution_clock::now();
     auto end = std::chrono::high_resolution_clock::now();
-
+    sim.detect_collisions();
     /// simulate for 30 seconds.
     for (int i = 0; i < 1500; i++) {
         sim.integrate();

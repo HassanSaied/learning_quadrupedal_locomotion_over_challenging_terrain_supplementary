@@ -47,7 +47,11 @@ PYBIND11_MODULE(legged_robotics, m) {
             .def_readonly("thighContacts_", &Env::blind_locomotion::thighContacts_)
             .def_readonly("footNormal_", &Env::blind_locomotion::footNormal_)
             .def_readonly("footNormal_b", &Env::blind_locomotion::footNormal_b)
-            .def_readonly("footVel_projected", &Env::blind_locomotion::footVel_projected);
+            .def_readonly("footVel_projected", &Env::blind_locomotion::footVel_projected)
+            .def_readonly("stateScale_", &Env::blind_locomotion::stateScale_)
+            .def_readonly("stateOffset_", &Env::blind_locomotion::stateOffset_)
+            .def_readonly("actionScale_", &Env::blind_locomotion::actionScale_)
+            .def_readonly("actionOffset_", &Env::blind_locomotion::actionOffset_);
             py::class_<PolicyWithActionDim>(m, "policy")
             .def(py::init<>())
             .def("load", static_cast<void (PolicyWithActionDim::*)(std::string, std::string, int, int,int)>(&PolicyWithActionDim::load),

@@ -833,7 +833,11 @@ class blind_locomotion {
             auto idx = anymal_->getFrameIdxByName(joint_name);
             auto torque = anymal_->getTorqueAtJointInWorldFrame(idx);
             std::cout << torque << std::endl;
-            std::vector joint_torque{torque[0], torque[1], torque[2]};
+//            std::vector joint_torque{torque[0], torque[1], torque[2]};
+            std::vector<double> joint_torque;
+            joint_torque.push_back(torque[0]);
+            joint_torque.push_back(torque[1]);
+            joint_torque.push_back(torque[2]);
             all_torques.push_back(joint_torque);
         }
         return all_torques;
@@ -1675,6 +1679,7 @@ class blind_locomotion {
     if (!same || terrainType_ == Flat_) {
       generateTerrain(terrainparams_);
     }
+    sampleCommand();
   }
 
  private:

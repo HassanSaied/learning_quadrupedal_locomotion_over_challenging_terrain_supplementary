@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 list(APPEND CMAKE_PREFIX_PATH $ENV{LOCAL_INSTALL})
 project(blind_sandbox)
+#SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(extern/pybind11)
@@ -35,6 +36,7 @@ target_include_directories(test_c100 PUBLIC ${EIGEN3_INCLUDE_DIR})
 
 
 pybind11_add_module(legged_robotics applications/pyBindSrc.cpp)
+target_compile_options(legged_robotics PUBLIC "-shared")
 target_link_options(legged_robotics PUBLIC "-Wl,--allow-multiple-definition" "-Wl,--whole-archive" "-Wl,--no-as-needed")
 target_link_libraries(legged_robotics PUBLIC ${${PROJECT_NAME}_LIBRARIES}  ${TensorFlow_LIBRARIES} raisim::raisim raisim::raisimOgre Eigen3::Eigen)
 target_include_directories(legged_robotics PUBLIC ${EIGEN3_INCLUDE_DIR})
