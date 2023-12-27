@@ -62,6 +62,7 @@ void perform_simulation(Env::blind_locomotion &sim, Policy<Env::ActionDim> &poli
         sim.integrate();
         sim.getHistory(history, history_len);
         sim.getState(state);
+        sim.getPriviligedState();
         all_history.push_back(history);
         all_state.push_back(state);
 
