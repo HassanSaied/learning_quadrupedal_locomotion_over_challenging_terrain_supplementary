@@ -847,7 +847,7 @@ class blind_locomotion {
       return matrix;
   }
 
-    std::pair<size_t,size_t> detect_collisions(){
+    std::pair<std::vector<size_t>,std::vector<size_t>> detect_collisions(){
       auto contacts = anymal_->getContacts();
         auto v  = anymal_->getBodyNames();
         std::vector<std::string> foot_names = {"RH_SHANK","LH_SHANK","RF_SHANK","LF_SHANK"};
@@ -873,7 +873,9 @@ class blind_locomotion {
             }
         }
 //        std::cout << collision_foot_with_ground_indices.size()<< ','<<  collision_other_body_parts.size()<< std::endl;
-        return {collision_foot_with_ground_indices.size(),collision_other_body_parts.size()};
+        std::vector v1(collision_foot_with_ground_indices.begin(),collision_foot_with_ground_indices.end());
+        std::vector v2(collision_other_body_parts.begin(),collision_other_body_parts.end());
+        return {v1,v2};
 
   }
 
